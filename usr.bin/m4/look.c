@@ -84,7 +84,7 @@ element_alloc(size_t s, void *u UNUSED)
 }
 
 void
-init_macros()
+init_macros(void)
 {
 	ohash_init(&macros, 10, &macro_info);
 }

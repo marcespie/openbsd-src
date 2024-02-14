@@ -88,7 +88,7 @@ addtoincludepath(const char *dirname)
 }
 
 static void
-ensure_m4path()
+ensure_m4path(void)
 {
 	static int envpathdone = 0;
 	char *envpath;
