@@ -120,10 +120,7 @@ setup_definition(struct macro_definition *d, const char *defn, const char *name)
 		d->type = macro_builtin_type(p);
 		d->defn = xstrdup(defn+sizeof(BUILTIN_MARKER)-1);
 	} else {
-		if (!*defn)
-			d->defn = null;
-		else
-			d->defn = xstrdup(defn);
+		d->defn = xstrdup(defn);
 		d->type = MACRTYPE;
 	}
 	if (STREQ(name, defn))
@@ -154,8 +151,7 @@ macro_define(const char *name, const char *defn)
 {
 	ndptr n = create_entry(name);
 	if (n->d != NULL) {
-		if (n->d->defn != null)
-			free_definition(n->d->defn);
+		free_definition(n->d->defn);
 	} else {
 		n->d = xalloc(sizeof(struct macro_definition), NULL);
 		n->d->next = NULL;
@@ -185,8 +181,7 @@ macro_undefine(const char *name)
 
 		for (r = n->d; r != NULL; r = r2) {
 			r2 = r->next;
-			if (r->defn != null)
-				free(r->defn);
+			free(r->defn);
 			free(r);
 		}
 		n->d = NULL;
@@ -202,8 +197,7 @@ macro_popdef(const char *name)
 		struct macro_definition *r = n->d;
 		if (r != NULL) {
 			n->d = r->next;
-			if (r->defn != null)
-				free(r->defn);
+			free(r->defn);
 			free(r);
 		}
 	}

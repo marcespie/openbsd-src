@@ -170,7 +170,6 @@ extern char **m4wraps;		/* m4wrap string default. */
 extern int maxwraps;		/* size of m4wraps array */
 extern int wrapindex;		/* current index in m4wraps */
 
-extern char *null;		/* as it says.. just a null. */
 extern char rquote[MAXCCHARS+1];/* right quote character (') */
 extern char scommt[MAXCCHARS+1];/* start character for comment */
 extern int  synch_lines;	/* line synchronisation directives */

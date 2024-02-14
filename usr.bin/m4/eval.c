@@ -89,9 +89,9 @@ unsigned long	expansion_id;
  *			   .
  *
  * A call in the form of macro-or-builtin() will result in:
- *			argv[0] = nullstr
+ *			argv[0] = ""
  *			argv[1] = macro-or-builtin
- *			argv[2] = nullstr
+ *			argv[2] = ""
  *
  * argc is 3 for macro-or-builtin() and 2 for macro-or-builtin
  */
@@ -132,7 +132,7 @@ expand_builtin(const char *argv[], int argc, int td)
 #endif
 
  /*
-  * if argc == 3 and argv[2] is null, then we
+  * if argc == 3 and argv[2] is NULL, then we
   * have macro-or-builtin() type call. We adjust
   * argc to avoid further checking..
   */
@@ -148,12 +148,12 @@ expand_builtin(const char *argv[], int argc, int td)
 
 	case DEFITYPE:
 		if (argc > 2)
-			dodefine(argv[2], (argc > 3) ? argv[3] : null);
+			dodefine(argv[2], (argc > 3) ? argv[3] : "");
 		break;
 
 	case PUSDTYPE:
 		if (argc > 2)
-			dopushdef(argv[2], (argc > 3) ? argv[3] : null);
+			dopushdef(argv[2], (argc > 3) ? argv[3] : "");
 		break;
 
 	case DUMPTYPE:
@@ -430,7 +430,7 @@ expand_builtin(const char *argv[], int argc, int td)
 			if (argc > 4)
 				map(temp, argv[2], argv[3], argv[4]);
 			else
-				map(temp, argv[2], argv[3], null);
+				map(temp, argv[2], argv[3], "");
 			pbstr(temp);
 			free(temp);
 		} else if (argc > 2)

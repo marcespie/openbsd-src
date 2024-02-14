@@ -67,7 +67,6 @@ int maxout;
 FILE *active;			/* active output file pointer  */
 int ilevel = 0;			/* input file stack pointer    */
 int oindex = 0;			/* diversion index..	       */
-char *null = "";                /* as it says.. just a null..  */
 char **m4wraps = NULL;		/* m4wraps array.	       */
 int maxwraps = 0;		/* size of m4wraps array       */
 int wrapindex = 0;		/* current offset in m4wraps   */
