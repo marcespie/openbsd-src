@@ -333,7 +333,7 @@ macro(void)
 	ndptr p;
 	int  nlpar;
 
-	cycle {
+	for (;;) {
 		t = gpbc();
 
 		if (LOOK_AHEAD(t,lquote)) {	/* strip quotes */

@@ -122,10 +122,6 @@
 #define ALL             1
 #define TOP             0
 
-#define TRUE            1
-#define FALSE           0
-#define cycle           for(;;)
-
 /*
  * m4 data structures
  */

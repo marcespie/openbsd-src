@@ -97,7 +97,7 @@ ensure_m4path()
 
 	if (envpathdone)
 		return;
-	envpathdone = TRUE;
+	envpathdone = 1;
 	envpath = getenv("M4PATH");
 	if (!envpath)
 		return;
