@@ -70,10 +70,13 @@ int oindex = 0;			/* diversion index..	       */
 char **m4wraps = NULL;		/* m4wraps array.	       */
 int maxwraps = 0;		/* size of m4wraps array       */
 int wrapindex = 0;		/* current offset in m4wraps   */
-char lquote[MAXCCHARS+1] = {LQUOTE};	/* left quote character  (`)   */
-char rquote[MAXCCHARS+1] = {RQUOTE};	/* right quote character (')   */
-char scommt[MAXCCHARS+1] = {SCOMMT};	/* start character for comment */
-char ecommt[MAXCCHARS+1] = {ECOMMT};	/* end character for comment   */
+
+/* default values for quotes and comments, can be tweaked with built-ins */
+char lquote[MAXCCHARS+1] = "`";	
+char rquote[MAXCCHARS+1] = "'";
+char scommt[MAXCCHARS+1] = "#";	
+char ecommt[MAXCCHARS+1] = "\n";
+
 int  synch_lines = 0;		/* line synchronisation for C preprocessor */
 int  prefix_builtins = 0;	/* -P option to prefix builtin keywords */
 int  error_warns = 0;           /* -E option to make warnings exit_code = 1 */
@@ -194,7 +197,7 @@ main(int argc, char *argv[])
 				if (*p == '=')
 					break;
 			if (*p)
-				*p++ = EOS;
+				*p++ = 0;
 			dodefine(optarg, p);
 			break;
 		case 'E':               /* like GNU m4 1.4.9+ */
@@ -249,7 +252,7 @@ main(int argc, char *argv[])
 	} else
 		for (; argc--; ++argv) {
 			p = *argv;
-			if (p[0] == '-' && p[1] == EOS)
+			if (p[0] == '-' && p[1] == 0)
 				set_input(infile, stdin, "stdin");
 			else if (fopen_trypath(infile, p) == NULL)
 				err(1, "%s", p);
@@ -386,7 +389,7 @@ macro(void)
 			p = inspect(t, token);
 			if (p != NULL)
 				pushback(l = gpbc());
-			if (p == NULL || (l != LPAREN &&
+			if (p == NULL || (l != '(' &&
 			    (macro_getdef(p)->type & NEEDARGS) != 0))
 				outputstr(token);
 			else {
@@ -405,9 +408,9 @@ macro(void)
 				pushs1((char *)macro_name(p));	/* macro name  */
 				pushs(ep);			/* start next..*/
 
-				if (l != LPAREN && PARLEV == 0) {
+				if (l != '(' && PARLEV == 0) {
 				    /* no bracks  */
-					chrsave(EOS);
+					chrsave(0);
 
 					if (sp == STACKMAX)
 						errx(1, "internal stack overflow");
@@ -438,7 +441,7 @@ macro(void)
 
 		else switch(t) {
 
-		case LPAREN:
+		case '(':
 			if (PARLEV > 0)
 				chrsave(t);
 			while (isspace(l = gpbc())) /* skip blank, tab, nl.. */
@@ -448,11 +451,11 @@ macro(void)
 			record(paren, PARLEV++);
 			break;
 
-		case RPAREN:
+		case ')':
 			if (--PARLEV > 0)
 				chrsave(t);
 			else {			/* end of argument list */
-				chrsave(EOS);
+				chrsave(0);
 
 				if (sp == STACKMAX)
 					errx(1, "internal stack overflow");
@@ -466,9 +469,9 @@ macro(void)
 			}
 			break;
 
-		case COMMA:
+		case ',':
 			if (PARLEV == 1) {
-				chrsave(EOS);		/* new argument   */
+				chrsave(0);		/* new argument   */
 				while (isspace(l = gpbc()))
 					;
 				pushback(l);
@@ -558,7 +561,7 @@ inspect(int c, char *tp)
 		*tp++ = c;
 	if (c != EOF)
 		PUSHBACK(c);
-	*tp = EOS;
+	*tp = 0;
 	/* token is too long, it won't match anything, but it can still
 	 * be output. */
 	if (tp == ep) {
@@ -569,7 +572,7 @@ inspect(int c, char *tp)
 			else
 				CHRSAVE(c);
 		}
-		*name = EOS;
+		*name = 0;
 		return NULL;
 	}
 

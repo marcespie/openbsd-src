@@ -339,7 +339,7 @@ expand_builtin(const char *argv[], int argc, int td)
 				pbstr(rquote);
 				pbstr(argv[n]);
 				pbstr(lquote);
-				pushback(COMMA);
+				pushback(',');
 			}
 			pbstr(rquote);
 			pbstr(argv[3]);
@@ -542,7 +542,7 @@ expand_macro(const char *argv[], int argc)
 		p++;
 	p--;			       /* last character of defn */
 	while (p > t) {
-		if (*(p - 1) != ARGFLAG)
+		if (*(p - 1) != '$')
 			PUSHBACK(*p);
 		else {
 			switch (*p) {
@@ -567,7 +567,7 @@ expand_macro(const char *argv[], int argc)
 				if (argc > 2) {
 					for (n = argc - 1; n > 2; n--) {
 						pbstr(argv[n]);
-						pushback(COMMA);
+						pushback(',');
 					}
 					pbstr(argv[2]);
 				}
@@ -578,7 +578,7 @@ expand_macro(const char *argv[], int argc)
 						pbstr(rquote);
 						pbstr(argv[n]);
 						pbstr(lquote);
-						pushback(COMMA);
+						pushback(',');
 					}
 					pbstr(rquote);
 					pbstr(argv[2]);
@@ -767,14 +767,14 @@ static void
 dochq(const char *argv[], int ac)
 {
 	if (ac == 2) {
-		lquote[0] = LQUOTE; lquote[1] = EOS;
-		rquote[0] = RQUOTE; rquote[1] = EOS;
+		lquote[0] = '`'; lquote[1] = 0;
+		rquote[0] = '\''; rquote[1] = 0;
 	} else {
 		strlcpy(lquote, argv[2], sizeof(lquote));
 		if (ac > 3) {
 			strlcpy(rquote, argv[3], sizeof(rquote));
 		} else {
-			rquote[0] = ECOMMT; rquote[1] = EOS;
+			rquote[0] = '\n'; rquote[1] = 0;
 		}
 	}
 }
@@ -789,12 +789,12 @@ dochc(const char *argv[], int argc)
  * empty argument.
  */
 	if (argc == 2) {
-		scommt[0] = EOS;
-		ecommt[0] = EOS;
+		scommt[0] = 0;
+		ecommt[0] = 0;
 	} else {
 		strlcpy(scommt, argv[2], sizeof(scommt));
 		if (argc == 3) {
-			ecommt[0] = ECOMMT; ecommt[1] = EOS;
+			ecommt[0] = '\n'; ecommt[1] = 0;
 		} else {
 			strlcpy(ecommt, argv[3], sizeof(ecommt));
 		}

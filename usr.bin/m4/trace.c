@@ -157,18 +157,18 @@ trace(const char *argv[], int argc, struct input_file *inp)
 		char delim[3];
 		int i;
 
-		delim[0] = LPAREN;
-		delim[1] = EOS;
+		delim[0] = '(';
+		delim[1] = 0;
 		for (i = 2; i < argc; i++) {
 			fprintf(traceout, "%s%s%s%s", delim,
 			    (trace_flags & TRACE_QUOTE) ? lquote : "",
 			    argv[i],
 			    (trace_flags & TRACE_QUOTE) ? rquote : "");
-			delim[0] = COMMA;
+			delim[0] = ',';
 			delim[1] = ' ';
-			delim[2] = EOS;
+			delim[2] = 0;
 		}
-		fprintf(traceout, "%c", RPAREN);
+		fprintf(traceout, ")");
 	}
 	if (trace_flags & TRACE_CONT) {
 		fprintf(traceout, " -> ???\n");

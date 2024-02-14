@@ -50,6 +50,3 @@
  */
 #define STREQ(a, b) ((a)[0] == (b)[0] && strcmp(a, b) == 0)
 #define STREQN(a, b, n) ((a)[0] == (b)[0] && strncmp(a, b, n) == 0)
-
-#define YES 1
-#define NO 0

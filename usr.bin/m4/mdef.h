@@ -97,20 +97,10 @@
  * m4 special characters
  */
 
-#define ARGFLAG         '$'
-#define LPAREN          '('
-#define RPAREN          ')'
-#define LQUOTE          '`'
-#define RQUOTE          '\''
-#define COMMA           ','
-#define SCOMMT          '#'
-#define ECOMMT          '\n'
-
 /*
  * other important constants
  */
 
-#define EOS             '\0'
 #define MAXINP          10              /* maximum include files	    */
 #define MAXOUT          10              /* maximum # of diversions	    */
 #define BUFSIZE         4096            /* starting size of pushback buffer */
