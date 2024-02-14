@@ -21,7 +21,7 @@
 #include "extern.h"
 
 int32_t end_result;
-const char *copy_toeval;
+static const char *copy_toeval;
 
 extern void yy_scan_string(const char *);
 extern int yyparse(void);
