@@ -149,7 +149,7 @@ extern void finish_trace(size_t);
 extern void set_trace_flags(const char *);
 extern FILE *traceout;
 
-extern stae *mstack;		/* stack of m4 machine */
+extern union stack_entry *mstack;/* stack of m4 machine */
 extern char *sstack;		/* shadow stack, for string space extension */
 extern FILE *active;		/* active output file pointer */
 extern struct input_file infile[];/* input file stack (0=stdin) */

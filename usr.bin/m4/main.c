@@ -56,7 +56,7 @@
 #include "extern.h"
 #include "pathnames.h"
 
-stae *mstack;			/* stack of m4 machine         */
+union stack_entry *mstack;	/* stack of m4 machine         */
 char *sstack;			/* shadow stack, for string space extension */
 static size_t STACKMAX;		/* current maximum size of stack */
 int sp;				/* current m4  stack pointer   */
@@ -182,7 +182,7 @@ main(int argc, char *argv[])
 	initspaces();
 	STACKMAX = INITSTACKMAX;
 
-	mstack = xreallocarray(NULL, STACKMAX, sizeof(stae), NULL);
+	mstack = xreallocarray(NULL, STACKMAX, sizeof(*mstack), NULL);
 	sstack = xalloc(STACKMAX, NULL);
 
 	maxout = 0;
@@ -634,7 +634,7 @@ static void
 enlarge_stack(void)
 {
 	STACKMAX += STACKMAX/2;
-	mstack = xreallocarray(mstack, STACKMAX, sizeof(stae),
+	mstack = xreallocarray(mstack, STACKMAX, sizeof(*mstack),
 	    "Evaluation stack overflow (%lu)",
 	    (unsigned long)STACKMAX);
 	sstack = xrealloc(sstack, STACKMAX,

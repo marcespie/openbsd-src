@@ -130,10 +130,10 @@ struct ndblock {			/* hashtable structure         */
 	char		name[1];	/* entry name..               */
 };
 
-typedef union {			/* stack structure */
+union stack_entry {		/* stack structure */
 	int	sfra;		/* frame entry  */
 	char	*sstr;		/* string entry */
-} stae;
+};
 
 struct input_file {
 	FILE		*file;
