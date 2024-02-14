@@ -92,7 +92,7 @@ init_macros(void)
 /*
  * find name in the hash table
  */
-ndptr
+struct ndblock *
 lookup(const char *name)
 {
 	return ohash_find(&macros, ohash_qlookup(&macros, name));
@@ -101,7 +101,7 @@ lookup(const char *name)
 struct macro_definition *
 lookup_macro_definition(const char *name)
 {
-	ndptr p;
+	struct ndblock *p;
 
 	p = ohash_find(&macros, ohash_qlookup(&macros, name));
 	if (p)
@@ -113,7 +113,7 @@ lookup_macro_definition(const char *name)
 static void
 setup_definition(struct macro_definition *d, const char *defn, const char *name)
 {
-	ndptr p;
+	struct ndblock *p;
 
 	if (strncmp(defn, BUILTIN_MARKER, sizeof(BUILTIN_MARKER)-1) == 0 &&
 	    (p = macro_getbuiltin(defn+sizeof(BUILTIN_MARKER)-1)) != NULL) {
@@ -127,12 +127,12 @@ setup_definition(struct macro_definition *d, const char *defn, const char *name)
 		d->type |= RECDEF;
 }
 
-static ndptr
+static struct ndblock *
 create_entry(const char *name)
 {
 	const char *end = NULL;
 	unsigned int i;
-	ndptr n;
+	struct ndblock *n;
 
 	i = ohash_qlookupi(&macros, name, &end);
 	n = ohash_find(&macros, i);
@@ -149,7 +149,7 @@ create_entry(const char *name)
 void
 macro_define(const char *name, const char *defn)
 {
-	ndptr n = create_entry(name);
+	struct ndblock *n = create_entry(name);
 	if (n->d != NULL) {
 		free_definition(n->d->defn);
 	} else {
@@ -162,7 +162,7 @@ macro_define(const char *name, const char *defn)
 void
 macro_pushdef(const char *name, const char *defn)
 {
-	ndptr n;
+	struct ndblock *n;
 	struct macro_definition *d;
 
 	n = create_entry(name);
@@ -175,7 +175,7 @@ macro_pushdef(const char *name, const char *defn)
 void
 macro_undefine(const char *name)
 {
-	ndptr n = lookup(name);
+	struct ndblock *n = lookup(name);
 	if (n != NULL) {
 		struct macro_definition *r, *r2;
 
@@ -191,7 +191,7 @@ macro_undefine(const char *name)
 void
 macro_popdef(const char *name)
 {
-	ndptr n = lookup(name);
+	struct ndblock *n = lookup(name);
 
 	if (n != NULL) {
 		struct macro_definition *r = n->d;
@@ -206,7 +206,7 @@ macro_popdef(const char *name)
 void
 macro_for_all(void (*f)(const char *, struct macro_definition *))
 {
-	ndptr n;
+	struct ndblock *n;
 	unsigned int i;
 
 	for (n = ohash_first(&macros, &i); n != NULL;
@@ -218,7 +218,7 @@ macro_for_all(void (*f)(const char *, struct macro_definition *))
 void
 setup_builtin(const char *name, unsigned int type)
 {
-	ndptr n;
+	struct ndblock *n;
 	char *name2;
 
 	if (prefix_builtins) {
@@ -239,7 +239,7 @@ setup_builtin(const char *name, unsigned int type)
 void
 mark_traced(const char *name, int on)
 {
-	ndptr p;
+	struct ndblock *p;
 	unsigned int i;
 
 	if (name == NULL) {
@@ -256,10 +256,10 @@ mark_traced(const char *name, int on)
 	}
 }
 
-ndptr
+struct ndblock *
 macro_getbuiltin(const char *name)
 {
-	ndptr p;
+	struct ndblock *p;
 
 	p = lookup(name);
 	if (p == NULL || p->builtin_type == MACRTYPE)

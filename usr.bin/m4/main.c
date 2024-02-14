@@ -154,7 +154,7 @@ static void dump_stack(struct position *, int);
 
 static void macro(void);
 static void initkwds(void);
-static ndptr inspect(int, char *);
+static struct ndblock *inspect(int, char *);
 static int do_look_ahead(int, const char *);
 static void reallyoutputstr(const char *);
 static void reallyputchar(int);
@@ -333,7 +333,7 @@ macro(void)
 {
 	char token[MAXTOK+1];
 	int t, l;
-	ndptr p;
+	struct ndblock *p;
 	int  nlpar;
 
 	for (;;) {
@@ -548,12 +548,12 @@ reallyputchar(int c)
  * build an input token..
  * consider only those starting with _ or A-Za-z.
  */
-static ndptr
+static struct ndblock *
 inspect(int c, char *tp)
 {
 	char *name = tp;
 	char *etp = tp+MAXTOK;
-	ndptr p;
+	struct ndblock *p;
 
 	*tp++ = c;
 

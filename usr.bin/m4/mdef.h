@@ -116,8 +116,6 @@
  * m4 data structures
  */
 
-typedef struct ndblock *ndptr;
-
 struct macro_definition {
 	struct macro_definition *next;
 	char		*defn;	/* definition..               */

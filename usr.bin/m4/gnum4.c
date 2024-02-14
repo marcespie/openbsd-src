@@ -148,7 +148,7 @@ fopen_trypath(struct input_file *i, const char *filename)
 void
 doindir(const char *argv[], int argc)
 {
-	ndptr n;
+	struct ndblock *n;
 	struct macro_definition *p;
 
 	n = lookup(argv[2]);
@@ -162,7 +162,7 @@ doindir(const char *argv[], int argc)
 void
 dobuiltin(const char *argv[], int argc)
 {
-	ndptr p;
+	struct ndblock *p;
 
 	argv[1] = NULL;
 	p = macro_getbuiltin(argv[2]);

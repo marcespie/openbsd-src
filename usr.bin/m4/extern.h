@@ -67,7 +67,7 @@ extern void m4_warnx(const char *, ...);
 #define FLAG_NO_TRACE 2
 
 extern void	init_macros(void);
-extern ndptr	lookup(const char *);
+extern struct ndblock *lookup(const char *);
 extern void mark_traced(const char *, int);
 extern struct ohash macros;
 
@@ -83,7 +83,7 @@ extern void	macro_for_all(void (*)(const char *, struct macro_definition *));
 #define macro_builtin_type(p)	((p)->builtin_type)
 #define is_traced(p) ((p)->trace_flags == FLAG_NO_TRACE ? (trace_flags & TRACE_ALL) : (p)->trace_flags)
 
-extern ndptr macro_getbuiltin(const char *);
+extern struct ndblock *macro_getbuiltin(const char *);
 
 /* main.c */
 extern void outputstr(const char *);
